@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+//Complete the following function.
+void int_bit(int a , int t[10])
+{
+    int  i =0 ;
+
+    while ( (a >= 0) && (10 > i) )
+    {
+        t[9-i] = a%2 ;
+        a /= 2 ;
+        i++ ;
+    }
+}
+
+int puissance (int a, int b)
+{
+    int c=1;
+    for(int i=0;i<b;i++)c*=a;
+    return c;
+}
+
+int bit_int (int *a)
+{
+    int f =0  ,i;
+    for (i=0 ; i<10 ; ++i)f += a[i] * puissance(2 , 9-i) ;
+     
+    return f ;
+}
+
+void and (int a[10] , int b[10] , int result[10])
+{
+    for (int i = 0; i < 10; ++i) result[i] = ( a[i]&b[i] ) ; 
+}
+
+void or (int a[10] , int b[10] , int result[10])
+{
+    for (int i = 0; i < 10; ++i) result[i] = ( a[i]||b[i] ) ; 
+}
+
+void xor (int a[10] , int b[10] , int result[10])
+{
+    for (int i = 0; i < 10; ++i) result[i] = ( ( !(a[i])&(b[i]) ) ||  ( !(b[i])&(a[i]) ) ) ;   
+} 
+
+void calculate_the_maximum(int n, int k) {
+  //Write your code here.
+    int a[10] , b[10] , and_[10] , or_[10] , xor_[10] , and__ , or__ , xor__ , and_optim = 0 , or_optim = 0 , xor_optim = 0 ; 
+        
+    for (int i = 1; i < n; ++i)
+    {
+        for(int j = i+1 ; j <=n ; j++)
+        {
+            int_bit(i , a) ;
+            int_bit(j , b) ;
+            
+            and(a , b , and_) ;
+            or(a , b , or_) ;
+            xor(a , b , xor_) ;
+            
+            and__ = bit_int(and_) ;
+            or__ = bit_int(or_) ;
+            xor__ = bit_int(xor_) ;            
+            
+            if (and__ < k && and_optim < and__) and_optim = and__ ; 
+            
+            if (or__ < k && or_optim < or__) or_optim = or__ ; 
+            
+            if (xor__ < k && xor_optim < xor__) xor_optim = xor__ ; 
+
+            
+        }
+    }
+    printf("%d\n%d\n%d", and_optim , or_optim , xor_optim) ;
+    
+}
+
+int main() {
+    int n, k;
+  
+    scanf("%d %d", &n, &k);
+    calculate_the_maximum(n, k);
+ 
+    return 0;
+}
